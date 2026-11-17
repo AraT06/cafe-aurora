@@ -1,0 +1,35 @@
+<article class="card producto-card">
+  <button
+    type="button"
+    class="producto-card__favorito"
+    [class.is-activo]="esFavorito"
+    (click)="alternarFavorito()"
+    aria-label="Marcar como favorito"
+  >
+    <i class="fa-heart" [class.fa-solid]="esFavorito" [class.fa-regular]="!esFavorito"></i>
+  </button>
+
+  @if (producto().imagen) {
+    <img [src]="producto().imagen" [alt]="producto().nombre" />
+  }
+
+  <div class="producto-card__body">
+    <h3>{{ producto().nombre }}</h3>
+    @if (producto().descripcion) {
+      <p>{{ producto().descripcion }}</p>
+    }
+
+    <div class="producto-card__footer">
+      <span class="producto-card__precio">
+        @if (producto().precio_original) {
+          <span class="producto-card__precio-original">Bs {{ producto().precio_original }}</span>
+        }
+        Bs {{ producto().precio }}
+      </span>
+      <button type="button" class="btn btn-primary producto-card__boton" [disabled]="agregando()" (click)="agregarAlCarrito()">
+        <i class="fa-solid" [class.fa-spinner]="agregando()" [class.fa-spin]="agregando()" [class.fa-cart-plus]="!agregando()"></i>
+        {{ agregando() ? '' : 'Agregar' }}
+      </button>
+    </div>
+  </div>
+</article>

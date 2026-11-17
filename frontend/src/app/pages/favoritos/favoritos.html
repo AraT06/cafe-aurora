@@ -1,0 +1,39 @@
+<section class="section">
+  <div class="container section-header">
+    <span class="eyebrow">Tus favoritos</span>
+    <h1>Favoritos</h1>
+  </div>
+
+  <div class="container">
+    @if (favoritosService.favoritos().length === 0) {
+      <p class="state-message">
+        Aún no tienes favoritos. <a routerLink="/menu">Explora el menú</a>
+      </p>
+    } @else {
+      <div class="favoritos-grid">
+        @for (producto of favoritosService.favoritos(); track producto.id) {
+          <article class="card favoritos-grid__item">
+            <button type="button" class="favoritos-grid__quitar" (click)="quitar(producto.id)" aria-label="Quitar de favoritos">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+            @if (producto.imagen) {
+              <img [src]="producto.imagen" [alt]="producto.nombre" />
+            }
+            <div class="favoritos-grid__body">
+              <h3>{{ producto.nombre }}</h3>
+              @if (producto.descripcion) {
+                <p>{{ producto.descripcion }}</p>
+              }
+              <div class="favoritos-grid__footer">
+                <span class="favoritos-grid__precio">Bs {{ producto.precio }}</span>
+                <button type="button" class="btn btn-primary" (click)="agregarAlCarrito(producto)">
+                  <i class="fa-solid fa-cart-plus"></i> Agregar
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

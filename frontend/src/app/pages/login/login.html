@@ -1,0 +1,26 @@
+<section class="auth-section">
+  <form class="card auth-card" [formGroup]="formulario" (ngSubmit)="enviar()">
+    <span class="eyebrow">Bienvenido de nuevo</span>
+    <h1>Inicia sesión</h1>
+
+    @if (error()) {
+      <p class="auth-card__error" role="alert">{{ error() }}</p>
+    }
+
+    <label class="campo">
+      <span>Correo</span>
+      <input type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" />
+    </label>
+
+    <label class="campo">
+      <span>Contraseña</span>
+      <input type="password" formControlName="password" placeholder="••••••••" />
+    </label>
+
+    <button type="submit" class="btn btn-primary" [disabled]="enviando()">
+      {{ enviando() ? 'Ingresando…' : 'Ingresar' }}
+    </button>
+
+    <p class="auth-card__switch">¿No tienes cuenta? <a routerLink="/registro">Regístrate</a></p>
+  </form>
+</section>

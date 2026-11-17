@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="container section-header">
+    <span class="eyebrow">Tu pedido</span>
+    <h1>Carrito</h1>
+  </div>
+
+  <div class="container carrito-layout">
+    @if (carritoService.resumen().items.length === 0) {
+      <p class="state-message">
+        Tu carrito está vacío. <a routerLink="/menu">Ver el menú</a>
+      </p>
+    } @else {
+      <div class="card carrito-items">
+        @for (item of carritoService.resumen().items; track item.producto_id) {
+          <div class="carrito-item">
+            @if (item.imagen) {
+              <img [src]="item.imagen" [alt]="item.nombre" />
+            }
+            <div class="carrito-item__info">
+              <h3>{{ item.nombre }}</h3>
+              <span class="carrito-item__precio">Bs {{ item.precio }}</span>
+            </div>
+            <div class="carrito-item__cantidad">
+              <button type="button" (click)="cambiarCantidad(item.producto_id, item.cantidad - 1)" aria-label="Restar">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span>{{ item.cantidad }}</span>
+              <button type="button" (click)="cambiarCantidad(item.producto_id, item.cantidad + 1)" aria-label="Sumar">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <span class="carrito-item__subtotal">Bs {{ (item.precio * item.cantidad).toFixed(2) }}</span>
+            <button type="button" class="carrito-item__quitar" (click)="eliminar(item.producto_id)" aria-label="Quitar">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        }
+      </div>
+
+      <aside class="card carrito-resumen">
+        <h3>Resumen</h3>
+        <div class="carrito-resumen__total">
+          <span>Total</span>
+          <strong>Bs {{ carritoService.resumen().total.toFixed(2) }}</strong>
+        </div>
+        @if (error()) {
+          <p class="state-message is-error">{{ error() }}</p>
+        }
+        <button type="button" class="btn btn-primary" [disabled]="procesando()" (click)="finalizarPedido()">
+          <i class="fa-solid" [class.fa-spinner]="procesando()" [class.fa-spin]="procesando()" [class.fa-check]="!procesando()"></i>
+          {{ procesando() ? 'Procesando…' : 'Finalizar pedido' }}
+        </button>
+      </aside>
+    }
+  </div>
+</section>

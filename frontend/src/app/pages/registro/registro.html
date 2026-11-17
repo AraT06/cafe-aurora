@@ -1,0 +1,40 @@
+<section class="auth-section">
+  <form class="card auth-card" [formGroup]="formulario" (ngSubmit)="enviar()">
+    <span class="eyebrow">Únete a Café Aurora</span>
+    <h1>Crea tu cuenta</h1>
+
+    @if (error()) {
+      <p class="auth-card__error" role="alert">{{ error() }}</p>
+    }
+
+    <label class="campo">
+      <span>Nombre</span>
+      <input type="text" formControlName="nombre" placeholder="Tu nombre" />
+    </label>
+
+    <label class="campo">
+      <span>Correo</span>
+      <input type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" />
+    </label>
+
+    <label class="campo">
+      <span>Contraseña</span>
+      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
+    </label>
+
+    <label class="campo">
+      <span>Confirmar contraseña</span>
+      <input type="password" formControlName="confirmarPassword" placeholder="Repite tu contraseña" />
+    </label>
+
+    @if (formulario.errors?.['noCoincide'] && formulario.controls.confirmarPassword.touched) {
+      <p class="auth-card__error">Las contraseñas no coinciden.</p>
+    }
+
+    <button type="submit" class="btn btn-primary" [disabled]="enviando()">
+      {{ enviando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+    </button>
+
+    <p class="auth-card__switch">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+  </form>
+</section>

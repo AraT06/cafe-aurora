@@ -1,0 +1,87 @@
+<section class="section section--surface">
+  <div class="container section-header">
+    <span class="eyebrow">Catálogo</span>
+    <h1>Descubre más</h1>
+    <p>Servicios, especialidades y un vistazo a nuestro espacio.</p>
+  </div>
+
+  <div class="container">
+    @if (cargando()) {
+      <p class="state-message">Cargando catálogo…</p>
+    } @else if (error()) {
+      <p class="state-message is-error">No pudimos cargar el catálogo. Verifica que el backend esté activo.</p>
+    } @else {
+      <div class="tabs">
+        <button type="button" [class.is-active]="pestanaActiva() === 'especialidades'" (click)="seleccionarPestana('especialidades')">
+          Especialidades
+        </button>
+        <button type="button" [class.is-active]="pestanaActiva() === 'servicios'" (click)="seleccionarPestana('servicios')">
+          Servicios
+        </button>
+        <button type="button" [class.is-active]="pestanaActiva() === 'galeria'" (click)="seleccionarPestana('galeria')">
+          Galería
+        </button>
+      </div>
+
+      @switch (pestanaActiva()) {
+        @case ('especialidades') {
+          @if (especialidades().length === 0) {
+            <p class="state-message">Pronto publicaremos nuestras especialidades.</p>
+          } @else {
+            <div class="catalogo-grid">
+              @for (item of especialidades(); track item.id) {
+                <article class="card catalogo-grid__item">
+                  @if (item.imagen) {
+                    <img [src]="item.imagen" [alt]="item.nombre" />
+                  }
+                  <div class="catalogo-grid__body">
+                    <div class="catalogo-grid__heading">
+                      <h3>{{ item.nombre }}</h3>
+                      <span class="catalogo-grid__precio">Bs {{ item.precio }}</span>
+                    </div>
+                    <p>{{ item.descripcion }}</p>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        }
+        @case ('servicios') {
+          @if (servicios().length === 0) {
+            <p class="state-message">Pronto publicaremos nuestros servicios.</p>
+          } @else {
+            <div class="catalogo-grid">
+              @for (item of servicios(); track item.id) {
+                <article class="card catalogo-grid__item">
+                  @if (item.imagen) {
+                    <img [src]="item.imagen" [alt]="item.nombre" />
+                  }
+                  <div class="catalogo-grid__body">
+                    <h3>{{ item.nombre }}</h3>
+                    <p>{{ item.descripcion }}</p>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        }
+        @case ('galeria') {
+          @if (galeria().length === 0) {
+            <p class="state-message">Pronto compartiremos imágenes de la cafetería.</p>
+          } @else {
+            <div class="galeria-grid">
+              @for (item of galeria(); track item.id) {
+                <figure class="galeria-grid__item">
+                  <img [src]="item.url_imagen" [alt]="item.titulo ?? 'Imagen de la cafetería'" />
+                  @if (item.titulo) {
+                    <figcaption>{{ item.titulo }}</figcaption>
+                  }
+                </figure>
+              }
+            </div>
+          }
+        }
+      }
+    }
+  </div>
+</section>

@@ -1,0 +1,67 @@
+<section class="section">
+  <div class="container section-header">
+    <span class="eyebrow">Contacto</span>
+    <h1>Escríbenos</h1>
+    <p>¿Tienes dudas, sugerencias o quieres reservar? Déjanos tu mensaje.</p>
+  </div>
+
+  <div class="container contacto-layout">
+    <form class="card contacto-form" [formGroup]="formulario" (ngSubmit)="enviar()">
+      @if (enviado()) {
+        <p class="contacto-form__exito" role="status">
+          ¡Gracias! Tu mensaje fue enviado correctamente. Te responderemos pronto.
+        </p>
+      }
+      @if (errorEnvio()) {
+        <p class="contacto-form__error" role="alert">{{ errorEnvio() }}</p>
+      }
+
+      <label class="campo">
+        <span>Nombre *</span>
+        <input type="text" formControlName="nombre" placeholder="Tu nombre" />
+        @if (formulario.controls.nombre.invalid && formulario.controls.nombre.touched) {
+          <small>Ingresa tu nombre (mínimo 2 caracteres).</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Correo *</span>
+        <input type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" />
+        @if (formulario.controls.correo.invalid && formulario.controls.correo.touched) {
+          <small>Ingresa un correo válido.</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Teléfono</span>
+        <input type="tel" formControlName="telefono" placeholder="Opcional" />
+      </label>
+
+      <label class="campo">
+        <span>Mensaje *</span>
+        <textarea formControlName="mensaje" rows="4" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+        @if (formulario.controls.mensaje.invalid && formulario.controls.mensaje.touched) {
+          <small>Escribe un mensaje de al menos 5 caracteres.</small>
+        }
+      </label>
+
+      <button type="submit" class="btn btn-primary" [disabled]="enviando()">
+        {{ enviando() ? 'Enviando…' : 'Enviar mensaje' }}
+      </button>
+    </form>
+
+    <aside class="card contacto-info">
+      <h3>{{ info()?.nombre ?? 'Café Aurora' }}</h3>
+      <p><i class="fa-solid fa-location-dot"></i> {{ info()?.direccion ?? 'Visítanos pronto.' }}</p>
+      @if (info()?.horario) {
+        <p><i class="fa-regular fa-clock"></i> {{ info()!.horario }}</p>
+      }
+      @if (info()?.telefono) {
+        <p><i class="fa-solid fa-phone"></i> <a [href]="'tel:' + info()!.telefono">{{ info()!.telefono }}</a></p>
+      }
+      @if (info()?.correo) {
+        <p><i class="fa-solid fa-envelope"></i> <a [href]="'mailto:' + info()!.correo">{{ info()!.correo }}</a></p>
+      }
+    </aside>
+  </div>
+</section>

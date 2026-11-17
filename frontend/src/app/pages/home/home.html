@@ -1,0 +1,90 @@
+<section class="hero">
+  @if (info()?.video_url) {
+    <video class="hero__media" [src]="info()!.video_url!" autoplay muted loop playsinline></video>
+  } @else if (info()?.imagen_hero) {
+    <img class="hero__media" [src]="info()!.imagen_hero!" alt="" />
+  }
+  <div class="hero__overlay"></div>
+  <div class="hero__vignette"></div>
+
+  <div class="container hero__content">
+    <div class="hero__titulo">
+      <span>{{ tituloHero().izquierda }}</span>
+      @if (tituloHero().derecha) {
+        <span>{{ tituloHero().derecha }}</span>
+      }
+    </div>
+    <span class="hero__bienvenida script-accent">{{ info()?.subtitulo_hero ?? 'Welcome' }}</span>
+
+    <div class="hero__actions">
+      <a routerLink="/menu" class="btn btn-primary"><i class="fa-solid fa-mug-hot"></i> Ver menú</a>
+      <a routerLink="/contacto" class="btn btn-outline"><i class="fa-regular fa-paper-plane"></i> Contáctanos</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--surface">
+  <div class="container menu-teaser__header">
+    <div>
+      <span class="eyebrow">Menu</span>
+      <h2 class="script-accent">drinks</h2>
+    </div>
+    <a routerLink="/carrito" class="btn btn-outline"><i class="fa-solid fa-bag-shopping"></i> my basket</a>
+  </div>
+
+  <div class="container">
+    @if (cargando()) {
+      <p class="state-message">Cargando menú…</p>
+    } @else if (menuTeaser().length === 0) {
+      <p class="state-message">Pronto publicaremos el menú.</p>
+    } @else {
+      <div class="menu-teaser__grid">
+        @for (producto of menuTeaser(); track producto.id) {
+          <app-producto-card [producto]="producto" />
+        }
+      </div>
+    }
+
+    <div class="menu-teaser__cta">
+      <a routerLink="/menu" class="btn btn-outline">More</a>
+    </div>
+  </div>
+</section>
+
+@if (destacado(); as promo) {
+  <section class="promo">
+    <div class="container promo__layout">
+      <div class="promo__texto">
+        <span class="eyebrow">New</span>
+        <h2 class="promo__titulo">{{ promo.nombre }}</h2>
+        @if (promo.descripcion) {
+          <p>{{ promo.descripcion }}</p>
+        }
+
+        <div class="promo__precio">
+          <strong>Bs {{ promo.precio }}</strong>
+          @if (promo.precio_original) {
+            <span>Bs {{ promo.precio_original }}</span>
+          }
+        </div>
+
+        @if (promo.detalles_promocion) {
+          <div class="promo__detalles">
+            @for (detalle of promo.detalles_promocion; track detalle.titulo) {
+              <div>
+                <strong>{{ detalle.titulo }}</strong>
+                <span>{{ detalle.subtitulo }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      @if (promo.imagen) {
+        <div class="promo__imagen-wrap">
+          <img class="promo__imagen" [src]="promo.imagen" [alt]="promo.nombre" />
+        </div>
+      }
+    </div>
+  </section>
+}

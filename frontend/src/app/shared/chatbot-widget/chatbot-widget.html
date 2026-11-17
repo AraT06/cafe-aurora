@@ -1,0 +1,54 @@
+<div class="chatbot" [class.is-open]="abierto()">
+  @if (abierto()) {
+    <div class="chatbot__panel">
+      <header class="chatbot__header">
+        <div>
+          <strong>Asistente Café Aurora</strong>
+          <span>Pregunta sobre menú, horarios o ubicación</span>
+        </div>
+        <button type="button" class="chatbot__close" (click)="alternarPanel()" aria-label="Cerrar chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <div class="chatbot__mensajes" #listaMensajes>
+        @for (mensaje of mensajes(); track $index) {
+          <div
+            class="chatbot__burbuja"
+            [class.chatbot__burbuja--usuario]="mensaje.role === 'user'"
+            [class.chatbot__burbuja--error]="mensaje.error"
+          >
+            {{ mensaje.content }}
+          </div>
+        }
+        @if (enviando()) {
+          <div class="chatbot__burbuja chatbot__burbuja--cargando">Escribiendo…</div>
+        }
+      </div>
+
+      <form class="chatbot__form" (ngSubmit)="enviar()">
+        <input
+          type="text"
+          name="mensaje"
+          placeholder="Escribe tu pregunta…"
+          [ngModel]="mensajeActual()"
+          (ngModelChange)="mensajeActual.set($event)"
+          [disabled]="enviando()"
+          autocomplete="off"
+        />
+        <button type="submit" class="btn btn-primary" [disabled]="enviando() || !mensajeActual().trim()">
+          Enviar
+        </button>
+      </form>
+    </div>
+  }
+
+  <button
+    type="button"
+    class="chatbot__toggle"
+    (click)="alternarPanel()"
+    [attr.aria-label]="abierto() ? 'Cerrar asistente' : 'Abrir asistente'"
+  >
+    <i class="fa-solid" [class.fa-xmark]="abierto()" [class.fa-comment-dots]="!abierto()"></i>
+  </button>
+</div>

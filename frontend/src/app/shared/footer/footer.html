@@ -1,0 +1,50 @@
+<footer class="footer">
+  <div class="footer__top container">
+    <div class="footer__brand">
+      <span class="footer__logo"><i class="fa-solid fa-mug-hot"></i> {{ info()?.nombre ?? 'Café Aurora' }}</span>
+      <p>{{ info()?.historia ?? 'Una cafetería acogedora dedicada al café artesanal y a los encuentros especiales.' }}</p>
+
+      <div class="footer__social">
+        <button type="button" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></button>
+        <button type="button" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+        <button type="button" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></button>
+        <button type="button" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Navegación</h4>
+      <a routerLink="/menu"><i class="fa-solid fa-mug-saucer"></i> Menú</a>
+      <a routerLink="/catalogo"><i class="fa-solid fa-list"></i> Catálogo</a>
+      <a routerLink="/nosotros"><i class="fa-solid fa-circle-info"></i> Nosotros</a>
+      <a routerLink="/contacto"><i class="fa-solid fa-paper-plane"></i> Contacto</a>
+    </div>
+
+    <div class="footer__col">
+      <h4>Mi cuenta</h4>
+      <a routerLink="/carrito"><i class="fa-solid fa-bag-shopping"></i> Carrito</a>
+      <a routerLink="/favoritos"><i class="fa-solid fa-heart"></i> Favoritos</a>
+      <a routerLink="/cuenta"><i class="fa-solid fa-user"></i> Mi cuenta</a>
+    </div>
+
+    <div class="footer__col">
+      <h4>Contacto</h4>
+      @if (info()?.direccion) {
+        <span class="footer__dato"><i class="fa-solid fa-location-dot"></i> {{ info()!.direccion }}</span>
+      }
+      @if (info()?.telefono) {
+        <a class="footer__dato" [href]="'tel:' + info()!.telefono"><i class="fa-solid fa-phone"></i> {{ info()!.telefono }}</a>
+      }
+      @if (info()?.correo) {
+        <a class="footer__dato" [href]="'mailto:' + info()!.correo"><i class="fa-solid fa-envelope"></i> {{ info()!.correo }}</a>
+      }
+      @if (info()?.horario) {
+        <span class="footer__dato"><i class="fa-regular fa-clock"></i> {{ info()!.horario }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="footer__bottom container">
+    <span>© {{ anioActual }} {{ info()?.nombre ?? 'Café Aurora' }}. Todos los derechos reservados.</span>
+  </div>
+</footer>

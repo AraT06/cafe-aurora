@@ -1,0 +1,42 @@
+<section class="section section--surface">
+  <div class="container menu-header">
+    <div>
+      <span class="eyebrow">Menu</span>
+      <h1>Drinks <span class="script-accent">&amp; more</span></h1>
+    </div>
+    <a routerLink="/carrito" class="btn btn-outline"><i class="fa-solid fa-bag-shopping"></i> my basket</a>
+  </div>
+
+  <div class="container">
+    @if (cargando()) {
+      <p class="state-message">Cargando menú…</p>
+    } @else if (error()) {
+      <p class="state-message is-error">No pudimos cargar el menú. Verifica que el backend esté activo.</p>
+    } @else if (productos().length === 0) {
+      <p class="state-message">Aún no hay productos publicados.</p>
+    } @else {
+      <div class="menu-filtros">
+        @for (categoria of categorias(); track categoria) {
+          <button
+            type="button"
+            class="menu-filtros__chip"
+            [class.is-active]="categoriaActiva() === categoria"
+            (click)="seleccionarCategoria(categoria)"
+          >
+            {{ categoria }}
+          </button>
+        }
+      </div>
+
+      @if (productosFiltrados().length === 0) {
+        <p class="state-message">No hay productos en esta categoría.</p>
+      } @else {
+        <div class="menu-grid">
+          @for (producto of productosFiltrados(); track producto.id) {
+            <app-producto-card [producto]="producto" />
+          }
+        </div>
+      }
+    }
+  </div>
+</section>

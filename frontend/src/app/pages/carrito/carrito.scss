@@ -1,0 +1,117 @@
+.carrito-layout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.carrito-items {
+  padding: 0.5rem 1.5rem;
+}
+
+.carrito-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.carrito-item:last-child {
+  border-bottom: none;
+}
+
+.carrito-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.carrito-item__info h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.carrito-item__precio {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.carrito-item__cantidad {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.6rem;
+}
+
+.carrito-item__cantidad button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 0.7rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.carrito-item__subtotal {
+  font-weight: 700;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.carrito-item__quitar {
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.carrito-item__quitar:hover {
+  color: var(--color-danger);
+}
+
+.carrito-resumen {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.carrito-resumen__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 1.1rem;
+}
+
+.carrito-resumen__total strong {
+  color: var(--color-accent);
+  font-size: 1.3rem;
+}
+
+@media (max-width: 860px) {
+  .carrito-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .carrito-item {
+    grid-template-columns: 48px 1fr auto;
+    row-gap: 0.6rem;
+  }
+
+  .carrito-item__cantidad,
+  .carrito-item__subtotal {
+    grid-column: 2 / 3;
+  }
+}

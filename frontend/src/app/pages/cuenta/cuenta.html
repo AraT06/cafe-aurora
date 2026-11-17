@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="container section-header">
+    <span class="eyebrow">Tu cuenta</span>
+    <h1>{{ authService.usuario()?.nombre }}</h1>
+    <p>{{ authService.usuario()?.correo }}</p>
+  </div>
+
+  <div class="container cuenta-layout">
+    <div class="card cuenta-pedidos">
+      <h3>Historial de pedidos</h3>
+
+      @if (cargando()) {
+        <p class="state-message">Cargando pedidos…</p>
+      } @else if (pedidos().length === 0) {
+        <p class="state-message">Todavía no tienes pedidos.</p>
+      } @else {
+        @for (pedido of pedidos(); track pedido.id) {
+          <div class="pedido-fila">
+            <div>
+              <strong>Pedido #{{ pedido.id }}</strong>
+              <span class="pedido-fila__fecha">{{ pedido.creado_en | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <span class="pedido-fila__estado">{{ pedido.estado }}</span>
+            <span class="pedido-fila__total">Bs {{ pedido.total }}</span>
+          </div>
+        }
+      }
+    </div>
+
+    <aside class="card cuenta-acciones">
+      <button type="button" class="btn btn-outline" (click)="cerrarSesion()">
+        <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+      </button>
+    </aside>
+  </div>
+</section>
